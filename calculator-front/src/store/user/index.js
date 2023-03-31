@@ -1,7 +1,8 @@
 import axios from 'axios'
+import baseUrl from '../../../baseUrl.js';
 
 const state = {
-    token: localStorage.getItem("access_token") || null,
+    token: localStorage.getItem("token") || null,
     // user: null
 };
 
@@ -18,7 +19,7 @@ const actions = {
     register(context, data) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`api/register`, {
+          .post(`${baseUrl}/register`, {
             name: data.name,
             email: data.email,
             phone: data.phone,
@@ -42,15 +43,15 @@ const actions = {
       if (context.getters.loggedIn) {
         return new Promise((resolve, reject) => {
           axios
-            .post(`api/logout`)
+            .post(`${baseUrl}/logout`)
             .then(response => {
-              localStorage.removeItem("access_token");
+              localStorage.removeItem("token");
               context.commit("destroyToken");
               resolve(response);
               //   console.log(response);
             })
             .catch(error => {
-              localStorage.removeItem("access_token");
+              localStorage.removeItem("token");
               context.commit("destroyToken");
               console.log(error);
               reject(error);
@@ -62,14 +63,14 @@ const actions = {
     login(context, credentials) {
       return new Promise((resolve, reject) => {
         axios
-          .post(`api/login`, {
+          .post(`${baseUrl}/login`, {
             email: credentials.email,
             password: credentials.password
           })
           .then(response => {
-            const token = response.data.access_token;
+            const token = response.data.token;
   
-            localStorage.setItem("access_token", token);
+            localStorage.setItem("token", token);
             context.commit("retreiveToken", token);
             resolve(response);
             //   console.log(response);
