@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Calculator from '../components/Calculator.vue';
 import Login from '../components/auth/Login.vue';
 import Register from '../components/auth/Register.vue';
+import NotFound from '../components/partials/NotFound.vue';
 
 Vue.use(VueRouter);
 
@@ -12,20 +13,24 @@ export default new VueRouter({
         {
             path: '/',
             name: 'calculator',
-            'component': Calculator,
+            component: Calculator,
             meta: {
-                requiresAuth: true,
+                requiresAuth: true
             }
         },
         {
             path: '/login',
             name: 'login',
-            'component': Login
+            component: Login
         },
         {
             path: '/register',
             name: 'register',
-            'component': Register
+            component: Register
+        },
+        {
+            path: '*',
+            component: NotFound,
         }
     ]
 });

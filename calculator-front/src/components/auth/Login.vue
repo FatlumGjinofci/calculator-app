@@ -65,17 +65,13 @@ export default {
                     password: this.password,
                 })
                 .then((response) => {
-                // console.log(response);
-                this.errors = response.data.message;
-                if (!this.errors) { 
-                    // console.log(this.$route.query.redirect);
-                    if (!this.$route.query.redirect) {
-                        this.$router.push("/");
-                    } 
-                    else {
-                        this.$router.push(this.$route.query.redirect);
+                    if(response.data.status === true) {
+                        if (!this.$route.query.redirect) {
+                            this.$router.push("/");
+                        } else {
+                            this.$router.push(this.$route.query.redirect);
+                        } 
                     }
-                }
                 })
                 .catch((error) => {
                     console.log(error);

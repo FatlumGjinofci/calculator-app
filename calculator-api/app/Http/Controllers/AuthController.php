@@ -44,4 +44,24 @@ class AuthController extends Controller
             'token' => $user->createToken("API TOKEN")->plainTextToken
         ], 200);
     }
+
+    public function user(Request $request)
+    {
+        return $request->user();
+    }
+
+    public function logout(){
+        if (Auth::check()) {
+            Auth::user()->tokens()->delete();
+            return response()->json([
+                'status' => true,
+                'success' =>'logout_success'
+            ],200);
+        }else{
+            return response()->json([
+                'status' => false,
+                'error' =>'api.something_went_wrong'
+            ], 500);
+        }
+    }
 }
