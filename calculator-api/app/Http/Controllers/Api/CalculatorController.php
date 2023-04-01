@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Calculator;
+use App\Services\CalculatorService;
 use Illuminate\Http\Request;
 
 class CalculatorController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         $calculations = Calculator::where('user_id', auth()->id())->get();
 
@@ -18,17 +19,21 @@ class CalculatorController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, CalculatorService $calculatorService)
     {
-        Calculator::create([
-            'user_id' => auth()->id(),
-            'expression' => $request->calculation['calculation']['expression'],
-            'result' => $request->calculation['calculation']['result'],
-        ]);
+        try {
+            $calculatorService->create($request);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Created'
-        ]);
+            return response()->json([
+                'status' => true,
+                'message' => 'Created successfully!'
+            ]);
+        }
+        catch (\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Something went wrong!'
+            ], 400);
+        }
     }
 }
