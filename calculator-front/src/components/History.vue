@@ -1,8 +1,11 @@
 <template>
-    <div>
-        <ul v-for="history in $store.state.calculations.calculations" :key="history.id">
-            <li>
-                {{ history.expression }} = {{ history.result }}
+    <div class="flex items-center justify-center">
+        <ul>
+            <li v-for="history in $store.state.calculator.calculations.calculations" :key="history.id"
+                class="m-6 text-3xl">
+                <span>
+                    {{ history.expression }} = {{ history.result }}    
+                </span>
             </li>
         </ul>
     </div>
@@ -20,7 +23,7 @@ export default {
     },
     methods: {
         getHistory() {
-            if (this.$store.state.calculations <= 0)
+            if (this.$store.state.calculator.calculations.length <= 0)
             {
                 this.$store.dispatch('getCalculations');
             }
