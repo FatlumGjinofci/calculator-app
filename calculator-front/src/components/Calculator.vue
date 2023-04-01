@@ -1,6 +1,6 @@
 <template>
     <div class="calculator">
-      <div class="display">{{ expression }}</div>
+      <div class="display">{{ result }}</div>
       <div class="buttons">
         <div class="row">
           <button @click="appendToExpression('(')">(</button>
@@ -40,25 +40,38 @@
   export default {
     data() {
       return {
-        expression: ''
+          expression: '',
+          result: ''
       };
     },
     methods: {
       appendToExpression(value) {
-        this.expression += value;
+        this.result += value;
       },
       clearExpression() {
-        this.expression = '';
+        this.result = '';
       },
       backspace() {
-        this.expression = this.expression.slice(0, -1);
+        this.result = this.result.slice(0, -1);
       },
       evaluate() {
         try {
-          this.expression = eval(this.expression);
+          this.expression = this.result;
+          this.result = eval(this.result);
+          this.storeCalculation(this.expression, this.result);
+          
         } catch (e) {
-          this.expression = 'Error';
+          this.result = 'Error';
         }
+      },
+      storeCalculation(expression, result) {
+        let calculation = {
+          expression,
+          result
+        }
+        this.$store.dispatch('createCalculation', {
+          calculation
+        });
       }
     }
   };
