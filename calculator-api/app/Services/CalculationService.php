@@ -66,6 +66,9 @@ class CalculationService
                 $values->push($a * $b);
                 break;
             case '/':
+                if($b == 0) {
+                    return null;
+                }
                 $values->push($a / $b);
                 break;
         }
