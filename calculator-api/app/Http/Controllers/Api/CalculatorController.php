@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Calculator;
+use App\Services\CalculationService;
 use App\Services\CalculatorService;
 use Illuminate\Http\Request;
 
@@ -28,12 +29,27 @@ class CalculatorController extends Controller
                 'status' => true,
                 'message' => 'Created successfully!'
             ]);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'status' => false,
                 'message' => 'Something went wrong!'
             ], 400);
+        }
+    }
+
+    public function calculation(Request $request, CalculationService $calculationService) {
+        try {
+            $result = $calculationService->calculate($request->formula);
+            return response()->json([
+                'status' => true,
+                'result' => $result
+            ]);
+        }
+        catch(\Exception $e) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Error'
+            ]);
         }
     }
 }
