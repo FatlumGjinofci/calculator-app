@@ -4,6 +4,7 @@ import baseUrl from '../../../baseUrl.js';
 const state = {
     calculations: [],
     calculation: {},
+    result: '0'
 };
 
 const getters = {
@@ -16,6 +17,9 @@ const mutations = {
     },
     SET_CALCULATION(state, calculation) {
         state.calculation = calculation;
+    },
+    SET_RESULT(state, result) {
+        state.result = result;
     }
 };
 

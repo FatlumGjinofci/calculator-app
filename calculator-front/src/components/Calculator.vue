@@ -37,6 +37,9 @@
   </template>
   
   <script>
+  import axios from 'axios';
+  import baseUrl from '../../baseUrl.js';
+
   export default {
     data() {
       return {
@@ -57,7 +60,8 @@
       evaluate() {
         try {
           this.expression = this.result;
-          this.result = eval(this.result);
+          this.calculate(this.expression);
+
           this.storeCalculation(this.expression, this.result);
           
         } catch (e) {
@@ -72,6 +76,20 @@
         this.$store.dispatch('createCalculation', {
           calculation
         });
+      },
+      calculate(formula) {
+        axios.defaults.headers.common["Authorization"] =
+        "Bearer " + localStorage.getItem("token");
+
+        axios.post(`${baseUrl}/calculation`, {formula})
+        .then(res => {
+            console.log(res);
+            this.result = res.data.result;
+        })
+        .finally(() => {
+            //context.dispatch('getCalculations');
+        })
+        .catch(error => { console.log(error) })          
       }
     }
   };
