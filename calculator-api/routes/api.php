@@ -20,7 +20,5 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::get('/user', [\App\Http\Controllers\Api\AuthController::class, 'user']);
     Route::post('/logout', [\App\Http\Controllers\Api\AuthController::class, 'logout']);
 
-    Route::post('/calculation', [\App\Http\Controllers\Api\CalculatorController::class, 'calculation']);
-    Route::get('/history', [\App\Http\Controllers\Api\CalculatorController::class, 'index']);
-    Route::post('/calculations', [\App\Http\Controllers\Api\CalculatorController::class, 'store']);
+    Route::post('/calculate', [\App\Http\Controllers\Api\CalculatorController::class, 'calculate']);
 });
